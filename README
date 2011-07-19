@@ -1,0 +1,58 @@
+ok so I've got a sort of mock up of the structure
+/src
+	/engine
+	/light
+	main.cpp
+/test
+/assets
+	/images
+	/audio
+	/fonts
+	/scripts
+	/levels
+	/scripts
+
+we can use v8 as the scripting engine, that should be simple and will run just about anywhere and is probably the fastest scripting engine available.  It's c++.
+so basically I was thinking this:
+
+== broad strokes on how it works ==
+engine loads sdl, v8, etc
+
+v8 is embedded: http://code.google.com/apis/v8/embed.html
+
+the engine runs the game loop: http://altdevblogaday.com/2011/07/03/threading-and-your-game-loop/
+
+engine loads the rules(src/light) for the game which is basically where we describe wtf the game is, and what methods we want to expose to the scripts that make sense for the game.
+
+the game rules run the scripts, tell the engine what to do, errors that occur that break the rules etc
+
+basic premise is that the engine is game neutral, the rules are game specific but still c++ so we can pull in shaders, assets and shit upon request by the scripts and tell the engine to load them
+
+== build & test stuff ==
+googletest and googlemock look good, they're robust and can give us junit style reports if we want.
+
+using scons to build because it seems easier then the others.
+
+
+full list of libraries:
+	v8
+	sdl
+	sdl-sound
+	sdl-ttf
+	google test
+	google mock
+	boost
+	scons
+	asset importer
+	google log (glog) : http://google-glog.googlecode.com/svn/trunk/doc/glog.html
+
+build specific ones:
+	google test
+	google mock
+	scons
+
+dev environment:
+	sudo apt-get install libv8-dev libsdl1.2-dev libgtest-dev google-mock libsdl-sound1.2-dev libsdl-ttf2.0-dev scons libboost-all-dev libgoogle-glog-dev
+	... and somehow get asset importer - might just have to build that ourselves
+
+... quite a list and will probably get bigger but fuck, saves us writing so much code.  - especially boost and v8
