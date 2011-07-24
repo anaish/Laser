@@ -10,4 +10,4 @@ libs = Split("""
 	glog
 """)
 
-Program('light', files, LIBS=libs)
+Program('laser', files, LIBS=libs)

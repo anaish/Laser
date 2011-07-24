@@ -1,7 +1,9 @@
 #include "light.hpp"
 
-Light::Light() {}
+Light::Light() {
+	this->name =  "Light";
+}
 
 void Light::run() {
-	LOG(INFO) << "Light was run!";
+	LOG(ERROR) << "Light was run!";
 }

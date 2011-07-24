@@ -1,12 +1,12 @@
 #include "engine.hpp"
 
 Engine::Engine(PRule rule) {
-	LOG(INFO) << "Rule loaded ";
+	LOG(ERROR) << "Rule loaded ";
 	this->rule = rule;
 }
 
 void Engine::run() {
-	LOG(INFO) << "Running engine with rule - ";
-	this->rule->run();
-	LOG(INFO) << "Ran the engine, all done now.";
+	LOG(ERROR) << "Running engine with rule - " + rule->getName();
+	rule->run();
+	LOG(ERROR) << "Ran the engine, all done now.";
 }
