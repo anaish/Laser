@@ -7,9 +7,9 @@ int main(int argc, char* argv[]) {
 
 	LOG(ERROR) << "Starting Light";
 
-//	PRule lightRules(new Light());
+	PRule lightRules(new Light);
 
-	Engine engine(NULL);
+	Engine engine(lightRules);
 
 	engine.run();
 	LOG(ERROR) << "Ending Light";
