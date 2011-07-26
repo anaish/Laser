@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	PRule lightRules(new Light);
 
 	Engine engine(lightRules);
-
+	engine.init();
 	engine.run();
 	LOG(ERROR) << "Ending Light";
 	return 0;

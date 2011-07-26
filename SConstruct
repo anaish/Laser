@@ -8,6 +8,7 @@ files = Split("""
 
 libs = Split("""
 	glog
+	SDL
 """)
 
 Program('laser', files, LIBS=libs)
