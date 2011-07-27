@@ -6,17 +6,18 @@
 #include <GL/glu.h>
 
 #include "rule.hpp"
+#include "display.hpp"
 
 typedef std::tr1::shared_ptr<Rule> PRule;
-typedef std::tr1::shared_ptr<SDL_Surface> PSurface;
+typedef std::tr1::shared_ptr<Display> PDisplay;
 
 class Engine {
 public:
 	Engine(PRule rule);
 	void init();
 	void run();
-	bool initOpenGl();
+	void setDisplay(PDisplay display);
 private:
 	PRule rule;
-	PSurface screen;
+	PDisplay display;
 };
