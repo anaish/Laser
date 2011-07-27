@@ -2,8 +2,8 @@
 #include <glog/logging.h>
 #include <tr1/memory>
 #include <SDL/SDL.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "rule.hpp"
 
