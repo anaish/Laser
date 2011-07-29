@@ -1,5 +1,8 @@
 #include "opengldisplay.hpp"
 
+/**
+An opengl implementation of the Display interface.
+**/
 OpenGlDisplay :: OpenGlDisplay(){
 
 }
@@ -8,13 +11,13 @@ OpenGlDisplay :: OpenGlDisplay(){
 Initialises the Open GL context.
 Should only be called once.
 **/
-
-/*
-TODO we need to pass in a configuration object here with the initialisation parameters (i.e screen width/height, antialiasing on/off, etc) they should come from config and/or auto detection.
-*/
-
-
 void OpenGlDisplay::init(){
+	
+	/*
+	TODO we need to pass in a configuration object here with the initialisation parameters 
+	(i.e screen width/height, antialiasing on/off, etc) they should come from config 
+	and/or auto detection.
+	*/
 
 	LOG(ERROR) << "Initialising OpenGL";
 
@@ -40,7 +43,44 @@ void OpenGlDisplay::init(){
 	SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
-
+	
+	glClearColor(0, 0, 0, 0);
+	glViewport(0, 0, 640, 480);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, 640, 480, 0, 1, -1);
+	glMatrixMode(GL_MODELVIEW);
+	glEnable(GL_TEXTURE_2D);
+	glLoadIdentity();
 
 
 } 
+
+/**
+Renders the display.
+
+TODO The game loop calls this every time - do we want this, or should we only render when we need to?
+The ultimate goal really is to not have the display affect the performance of the game - even if
+we have to skip frames to achieve it.
+**/
+void OpenGlDisplay::OnRender(){
+
+	//TODO tested this and the function is getting called but nothing is being drawn...
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	glBegin(GL_QUADS);
+
+		/*TODO here we need to draw our assets - once we get around to it, perhaps we should 
+		refactor this out so that it calls an "open gl" implementation of a "game object"
+		interface. That way, if we use the same engine for different games, we can create 
+		other types of game objects (e.g a 2d sprite/webgl/whatever) 
+		*/
+		glColor3f(1, 0, 0); glVertex3f(0, 0, 0);
+		glColor3f(1, 1, 0); glVertex3f(100, 0, 0);
+		glColor3f(1, 0, 1); glVertex3f(100, 100, 0);
+		glColor3f(1, 1, 1); glVertex3f(0, 100, 0);
+	glEnd();
+	SDL_GL_SwapBuffers();
+
+}

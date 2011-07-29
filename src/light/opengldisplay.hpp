@@ -13,6 +13,7 @@ class OpenGlDisplay : public Display {
 public:
 	OpenGlDisplay();
 	virtual void init();
+	virtual void OnRender();
 private:
 	PSurface screen;
 

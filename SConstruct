@@ -4,6 +4,7 @@ files = Split("""
 	work/main.cpp
 	work/engine/engine.cpp
 	work/light/light.cpp
+	work/light/opengldisplay.cpp
 """)
 
 libs = Split("""

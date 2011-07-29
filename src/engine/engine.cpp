@@ -21,6 +21,9 @@ void Engine::init() {
 				stillRunning = false;
 			break;
 		}
+
+		display->OnRender();
+
 	}
 	SDL_Quit();
 }
