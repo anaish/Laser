@@ -9,6 +9,7 @@ files = Split("""
 
 libs = Split("""
 	glog
+	SDLmain
 	SDL
 	GL
 """)

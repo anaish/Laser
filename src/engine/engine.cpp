@@ -12,18 +12,16 @@ void Engine::init() {
 
 	display->init();
 
-	bool stillRunning = true;
+	bool running = true;
 	SDL_Event event;
-	while(stillRunning) {
-		SDL_WaitEvent(&event);
-		switch( event.type ) {
-			SDL_QUIT:
-				stillRunning = false;
-			break;
+	while(running) {
+		while(SDL_PollEvent(&event)) {
+			if( event.type == SDL_QUIT )
+				running = false;
+
+			display->OnRender();
+
 		}
-
-		display->OnRender();
-
 	}
 	SDL_Quit();
 }
