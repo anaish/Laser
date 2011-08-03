@@ -25,7 +25,7 @@ void OpenGlDisplay::init(){
         	LOG(ERROR) << "Unable to init SDL";
     	}
 	
-	screen = PSurface(SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF));
+	screen = PSurface(SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL));
 
     	if(screen == NULL) {
         	LOG(ERROR) << "Unable to init screen";
@@ -65,7 +65,6 @@ we have to skip frames to achieve it.
 **/
 void OpenGlDisplay::OnRender(){
 
-	//TODO tested this and the function is getting called but nothing is being drawn...
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
