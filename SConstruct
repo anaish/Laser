@@ -5,6 +5,7 @@ files = Split("""
 	work/engine/engine.cpp
 	work/light/light.cpp
 	work/light/opengldisplay.cpp
+	work/light/v8config.cpp
 """)
 
 libs = Split("""
@@ -12,6 +13,7 @@ libs = Split("""
 	SDLmain
 	SDL
 	GL
+	v8
 """)
 
 Program('laser', files, LIBS=libs)

@@ -1,6 +1,8 @@
 #pragma once
 
-
+/**
+ * An interface to the display
+ */
 class Display {
 public:
 	virtual void init() = 0;

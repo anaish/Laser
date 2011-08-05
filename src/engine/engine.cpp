@@ -1,4 +1,7 @@
+#include <cassert>
 #include "engine.hpp"
+using namespace std;
+
 
 Engine::Engine(PRule rule) {
 	LOG(ERROR) << "Rule loaded ";
@@ -9,7 +12,10 @@ Initialises the engine (view port/controls/levels/etc), and then starts the game
 **/
 void Engine::init() {
 
+	assert(config);
+	assert(display);
 
+	config->load();
 	display->init();
 
 	bool running = true;
@@ -25,14 +31,23 @@ void Engine::init() {
 	}
 	SDL_Quit();
 }
-
+/**
+ * Sets the display on this engine
+ */
 void Engine::setDisplay(PDisplay display){
 
-	LOG(ERROR) << "Init Display";
+	LOG(ERROR) << "Setting display";
 	this->display = display;
-	
 
 }
+
+void Engine::setConfig(PConfig config){
+
+	LOG(ERROR) << "Setting configuration";
+	this->config = config;
+
+}
+
 
 /**
 Runs this engine's current rule
