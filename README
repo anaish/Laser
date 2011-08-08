@@ -1,3 +1,14 @@
+**CONFIGURATION***
+
+In order to run Light you will need to make sure you have a config.json in <your home directory>/Laser
+
+e.g:
+
+/home/username/Laser/config.json
+
+
+**COMPILATION**
+
 ok so I've got a sort of mock up of the structure
 /src
 	/engine
