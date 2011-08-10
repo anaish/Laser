@@ -14,9 +14,12 @@ void Engine::init() {
 
 	assert(config);
 	assert(display);
+	assert(fileSystem);
 
-	config->load();
-	display->init();
+	string jsonConfigFile = fileSystem->readFile(fileSystem->getHomeDirectory() + "/Laser/config.json");
+
+	config->load(jsonConfigFile);
+	display->init(config);
 
 	bool running = true;
 	SDL_Event event;
@@ -41,13 +44,26 @@ void Engine::setDisplay(PDisplay display){
 
 }
 
+/**
+ * Sets the display on this engine
+ */
+void Engine::setFileSystem(PFileSystem filesystem){
+
+	LOG(ERROR) << "Setting file system";
+	this->fileSystem = filesystem;
+
+}
+
+
+/**
+ * Sets the configuration this engine will use
+ */
 void Engine::setConfig(PConfig config){
 
 	LOG(ERROR) << "Setting configuration";
 	this->config = config;
 
 }
-
 
 /**
 Runs this engine's current rule

@@ -3,6 +3,7 @@
 #include "light/light.hpp"
 #include "light/opengldisplay.hpp"
 #include "light/v8config.hpp"
+#include "light/defaultfilesystem.hpp"
 
 int main(int argc, char* argv[]) {
 
@@ -13,10 +14,12 @@ int main(int argc, char* argv[]) {
 	PRule lightRules(new Light);
 	PDisplay openGlDisplay(new OpenGlDisplay());
 	PConfig v8Config(new V8Config());
+	PFileSystem fileSystem(new DefaultFileSystem());
 
 	Engine engine(lightRules);
 	engine.setConfig(v8Config);
 	engine.setDisplay(openGlDisplay);
+	engine.setFileSystem(fileSystem);
 	engine.init();
 	engine.run();
 	LOG(ERROR) << "Ending Light";

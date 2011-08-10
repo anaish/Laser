@@ -44,7 +44,7 @@ string DefaultFileSystem::readFile(string fileName) {
     myfile.close();
   }
 
-  else LOG(ERROR) << "Unable to open file" << fileName;
+  else LOG(ERROR) << "Unable to open file: " << fileName;
 
   return jsonFile;
 }

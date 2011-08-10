@@ -5,15 +5,30 @@
  *      Author: andrew
  */
 #pragma once
+#include <string>
+#include <v8.h>
 
 #include "../engine/config.hpp"
+
+using namespace std;
+using namespace v8;
+
 
 class V8Config : public Config {
 
 public:
 	V8Config();
-	virtual void load();
-
+	virtual void load(string json);
+	virtual int getInt(const char* category,const char* name);
+	virtual ~V8Config(){context.Dispose();}
+private:
+	void parseConfig(Handle<Value> config);
+	Handle<Object> getObjectParameter(Handle<Object> element,const char* key);
+	Handle<Integer> getIntegerParameter(Handle<Object> element,const char* key);
+	Handle<Value> getKeyHandle(Handle<Object> element,const char* key);
+	Handle<Object> resultObject;
+	Persistent<Context> context;
+	HandleScope handle_scope;
 
 };
 

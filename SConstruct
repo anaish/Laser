@@ -6,6 +6,7 @@ files = Split("""
 	work/light/light.cpp
 	work/light/opengldisplay.cpp
 	work/light/v8config.cpp
+	work/light/defaultfilesystem.cpp
 """)
 
 libs = Split("""

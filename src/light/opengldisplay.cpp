@@ -11,7 +11,7 @@ OpenGlDisplay :: OpenGlDisplay(){
 Initialises the Open GL context.
 Should only be called once.
 **/
-void OpenGlDisplay::init(){
+void OpenGlDisplay::init(PConfig config){
 	
 	/*
 	TODO we need to pass in a configuration object here with the initialisation parameters 
@@ -25,7 +25,7 @@ void OpenGlDisplay::init(){
         	LOG(ERROR) << "Unable to init SDL";
     	}
 	
-	screen = PSurface(SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL));
+	screen = PSurface(SDL_SetVideoMode(config->getInt("display","width"), config->getInt("display","height"), 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL));
 
     	if(screen == NULL) {
         	LOG(ERROR) << "Unable to init screen";
