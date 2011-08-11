@@ -13,11 +13,6 @@ Should only be called once.
 **/
 void OpenGlDisplay::init(PConfig config){
 	
-	/*
-	TODO we need to pass in a configuration object here with the initialisation parameters 
-	(i.e screen width/height, antialiasing on/off, etc) they should come from config 
-	and/or auto detection.
-	*/
 
 	LOG(ERROR) << "Initialising OpenGL";
 
@@ -25,7 +20,10 @@ void OpenGlDisplay::init(PConfig config){
         	LOG(ERROR) << "Unable to init SDL";
     	}
 	
-	screen = PSurface(SDL_SetVideoMode(config->getInt("display","width"), config->getInt("display","height"), 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL));
+	int displayWidth = config->getInt("display","width");
+	int displayHeight = config->getInt("display","height");
+
+	screen = PSurface(SDL_SetVideoMode(displayWidth,displayHeight , 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL));
 
     	if(screen == NULL) {
         	LOG(ERROR) << "Unable to init screen";

@@ -20,11 +20,16 @@ public:
 	V8Config();
 	virtual void load(string json);
 	virtual int getInt(const char* category,const char* name);
-	virtual ~V8Config(){context.Dispose();}
+	virtual const char* getString(const char* category,const char* name);
+	virtual ~V8Config(){
+		// Dispose the persistent context.
+		context.Dispose();
+	}
 private:
 	void parseConfig(Handle<Value> config);
 	Handle<Object> getObjectParameter(Handle<Object> element,const char* key);
 	Handle<Integer> getIntegerParameter(Handle<Object> element,const char* key);
+	Handle<String> getStringParameter(Handle<Object> element,const char* key);
 	Handle<Value> getKeyHandle(Handle<Object> element,const char* key);
 	Handle<Object> resultObject;
 	Persistent<Context> context;

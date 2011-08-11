@@ -47,8 +47,6 @@ void V8Config::load(string json){
 	Handle<Value> result = script->Run();
 	parseConfig(result);
 
-	// Dispose the persistent context.
-	//context.Dispose();
 
 	// Convert the result to an ASCII string and print it.
 	String::AsciiValue ascii(result);
@@ -57,8 +55,16 @@ void V8Config::load(string json){
 
 }
 
-int V8Config::getInt(const char* category,const char* name){
+const char* V8Config::getString(const char* category,const char* name){
 
+	Handle<Object> categoryObject = getObjectParameter(resultObject,category);
+	Handle<String> stringParam = getStringParameter(categoryObject,name);
+	String::AsciiValue ascii(stringParam);
+	return *ascii;
+
+}
+
+int V8Config::getInt(const char* category,const char* name){
 
 	Handle<Object> categoryObject = getObjectParameter(resultObject,category);
 	return getIntegerParameter(categoryObject,name)->IntegerValue();
@@ -108,5 +114,17 @@ Handle<Integer> V8Config::getIntegerParameter(Handle<Object> element,const char*
 	assert(handleValue->IsNumber());
 	return handleValue->ToInteger();
 
+}
+
+/**
+ * Gets an object parameter from the json config as a String
+ */
+
+Handle<String> V8Config::getStringParameter(Handle<Object> element,const char* key){
+
+	Handle<Value> handleValue = getKeyHandle(element,key);
+	assert(handleValue->IsString());
+	return handleValue->ToString();
 
 }
+
