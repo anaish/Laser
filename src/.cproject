@@ -25,10 +25,14 @@
 								<option id="gnu.c.compiler.option.debugging.level.1386482667" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.2066715542" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/SDL"/>
+									<listOptionValue builtIn="false" value="/usr/include/assimp"/>
 									<listOptionValue builtIn="false" value="/usr/include/GL"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.624385536" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" valueType="includeFiles">
 									<listOptionValue builtIn="false" value="/usr/include/SDL/SDL.h"/>
+									<listOptionValue builtIn="false" value="/usr/include/assimp/assimp.h"/>
+									<listOptionValue builtIn="false" value="/usr/include/aiPostProcess.h"/>
+									<listOptionValue builtIn="false" value="/usr/include/aiScene.h"/>
 									<listOptionValue builtIn="false" value="/usr/include/v8.h"/>
 									<listOptionValue builtIn="false" value="/usr/include/GL/gl.h"/>
 									<listOptionValue builtIn="false" value="/usr/include/glog/logging.h"/>
@@ -41,6 +45,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1653469222" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/SDL"/>
 									<listOptionValue builtIn="false" value="/usr/include/glog"/>
+									<listOptionValue builtIn="false" value="/usr/include/assimp"/>
 									<listOptionValue builtIn="false" value="/usr/include/GL"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.767757463" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -50,6 +55,7 @@
 								<option id="gnu.cpp.link.option.libs.198408061" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="SDL"/>
 									<listOptionValue builtIn="false" value="glog"/>
+									<listOptionValue builtIn="false" value="assimp"/>
 									<listOptionValue builtIn="false" value="GL"/>
 									<listOptionValue builtIn="false" value="v8"/>
 								</option>

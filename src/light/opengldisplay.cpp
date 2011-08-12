@@ -18,7 +18,7 @@ void OpenGlDisplay::init(PConfig config){
 
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         	LOG(ERROR) << "Unable to init SDL";
-    	}
+    }
 	
 	int displayWidth = config->getInt("display","width");
 	int displayHeight = config->getInt("display","height");
