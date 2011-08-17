@@ -22,11 +22,8 @@ void Engine::init() {
 	string jsonConfigFile = fileSystem->readFile(homeDirectory + "/config.json");
 
 	config->load(jsonConfigFile);
-	string model = config->getString("scene","filePath");
-	string modelPath = homeDirectory + model;
-
-	modelImporter->loadModel(modelPath);
-
+	modelImporter->setBaseDirectory(homeDirectory);
+	modelImporter->init(config);
 	display->init(config);
 
 	bool running = true;
