@@ -9,11 +9,13 @@
 #include "display.hpp"
 #include "config.hpp"
 #include "filesystem.hpp"
+#include "modelimporter.hpp"
 
 typedef std::tr1::shared_ptr<Rule> PRule;
 typedef std::tr1::shared_ptr<Display> PDisplay;
 typedef std::tr1::shared_ptr<Config> PConfig;
 typedef std::tr1::shared_ptr<FileSystem> PFileSystem;
+typedef std::tr1::shared_ptr<ModelImporter> PModelImporter;
 
 class Engine {
 public:
@@ -23,9 +25,11 @@ public:
 	void setDisplay(PDisplay display);
 	void setConfig(PConfig config);
 	void setFileSystem(PFileSystem fileSystem);
+	void setModelImporter(PModelImporter modelImporter);
 private:
 	PRule rule;
 	PDisplay display;
 	PConfig config;
 	PFileSystem fileSystem;
+	PModelImporter modelImporter;
 };

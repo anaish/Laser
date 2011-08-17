@@ -20,7 +20,7 @@ public:
 	V8Config();
 	virtual void load(string json);
 	virtual int getInt(const char* category,const char* name);
-	virtual const char* getString(const char* category,const char* name);
+	virtual string getString(const char* category,const char* name);
 	virtual ~V8Config(){
 		// Dispose the persistent context.
 		context.Dispose();
@@ -31,7 +31,7 @@ private:
 	Handle<Integer> getIntegerParameter(Handle<Object> element,const char* key);
 	Handle<String> getStringParameter(Handle<Object> element,const char* key);
 	Handle<Value> getKeyHandle(Handle<Object> element,const char* key);
-	Handle<Object> resultObject;
+	Handle<Object> rootObject;
 	Persistent<Context> context;
 	HandleScope handle_scope;
 

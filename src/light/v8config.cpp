@@ -24,9 +24,6 @@ void V8Config::load(string json){
 
 	LOG(ERROR) << "Loading configuration";
 
-	//Create the handle scope
-	//HandleScope handle_scope;
-
 	//create the context
 	context = Context::New();
 
@@ -55,18 +52,19 @@ void V8Config::load(string json){
 
 }
 
-const char* V8Config::getString(const char* category,const char* name){
+string V8Config::getString(const char* category,const char* name){
 
-	Handle<Object> categoryObject = getObjectParameter(resultObject,category);
+	Handle<Object> categoryObject = getObjectParameter(rootObject,category);
 	Handle<String> stringParam = getStringParameter(categoryObject,name);
 	String::AsciiValue ascii(stringParam);
-	return *ascii;
+	string s = *ascii;
+	return s;
 
 }
 
 int V8Config::getInt(const char* category,const char* name){
 
-	Handle<Object> categoryObject = getObjectParameter(resultObject,category);
+	Handle<Object> categoryObject = getObjectParameter(rootObject,category);
 	return getIntegerParameter(categoryObject,name)->IntegerValue();
 
 }
@@ -77,7 +75,7 @@ int V8Config::getInt(const char* category,const char* name){
 void V8Config::parseConfig(Handle<Value> result){
 
 	assert(result->IsObject());
-	resultObject = result->ToObject();
+	rootObject = result->ToObject();
 
 }
 

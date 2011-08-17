@@ -9,27 +9,42 @@
 #include <assimp/assimp.h>
 #include <assimp/aiPostProcess.h>
 #include <assimp/aiScene.h>
+#include <string>
+#include <cassert>
 
 using namespace std;
 
 #define aisgl_min(x,y) (x<y?x:y)
 #define aisgl_max(x,y) (y>x?y:x)
 
-
 // the global Assimp scene object
 const struct aiScene* scene = NULL;
 struct aiVector3D scene_min, scene_max, scene_center;
 
+AssimpModelImporter::AssimpModelImporter(){
 
+
+}
+
+/**
+ * Loads the models into memory
+ */
+void AssimpModelImporter::init(PConfig config){
+
+
+
+}
 /*
  * Loads the model into memory from disk
  */
-void AssimpModelImporter::loadModel(const char* fileName){
+void AssimpModelImporter::loadModel(string fileName){
 
 	// we are taking one of the postprocessing presets to avoid
 	// writing 20 single postprocessing flags here.
 
-	scene = aiImportFile(fileName,aiProcessPreset_TargetRealtime_Quality);
+	scene = aiImportFile(fileName.c_str(),aiProcessPreset_TargetRealtime_Quality);
+
+	assert(scene);
 
 	if (scene) {
 		get_bounding_box(&scene_min,&scene_max);

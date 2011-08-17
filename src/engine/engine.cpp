@@ -1,5 +1,6 @@
 #include <cassert>
 #include "engine.hpp"
+#include <string>
 using namespace std;
 
 
@@ -15,10 +16,17 @@ void Engine::init() {
 	assert(config);
 	assert(display);
 	assert(fileSystem);
+	assert(modelImporter);
 
-	string jsonConfigFile = fileSystem->readFile(fileSystem->getHomeDirectory() + "/Laser/config.json");
+	string homeDirectory = fileSystem->getHomeDirectory() + "/Laser";
+	string jsonConfigFile = fileSystem->readFile(homeDirectory + "/config.json");
 
 	config->load(jsonConfigFile);
+	string model = config->getString("scene","filePath");
+	string modelPath = homeDirectory + model;
+
+	modelImporter->loadModel(modelPath);
+
 	display->init(config);
 
 	bool running = true;
@@ -64,6 +72,17 @@ void Engine::setConfig(PConfig config){
 	this->config = config;
 
 }
+
+/**
+ * Sets the configuration this engine will use
+ */
+void Engine::setModelImporter(PModelImporter modelImporter){
+
+	LOG(ERROR) << "Setting configuration";
+	this->modelImporter = modelImporter;
+
+}
+
 
 /**
 Runs this engine's current rule

@@ -2,5 +2,8 @@
 	display:{
 		width:640,
 		height:480
-	}	
+	},
+	scene:{
+		filePath:"/models/test/dwarf.x"
+	}
 }

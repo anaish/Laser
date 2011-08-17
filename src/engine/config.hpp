@@ -12,6 +12,6 @@ public:
 	virtual void load(string json) = 0;
 	//gets an integer parameter - eg "display","width"s
 	virtual int getInt(const char* category,const char* name) = 0;
-	virtual const char* getString(const char* category,const char* name) = 0;
+	virtual string getString(const char* category,const char* name) = 0;
 	virtual ~Config(){};
 };
