@@ -8,7 +8,6 @@ public:
 	std::string getName() {
 		return name;
 	}
-	virtual ~Rule() {}
 protected:
 	std::string name;
 };

@@ -4,6 +4,6 @@
 		height:480
 	},
 	scene:{
-		filePath:"/models/test/dwarf.x"
+		filePath:"models/test/dwarf.x"
 	}
 }

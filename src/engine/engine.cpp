@@ -18,14 +18,12 @@ void Engine::init() {
 	assert(fileSystem);
 	assert(modelImporter);
 
-	string homeDirectory = fileSystem->getHomeDirectory() + "/Laser";
-	string jsonConfigFile = fileSystem->readFile(homeDirectory + "/config.json");
+	config->setFileSystem(fileSystem);
+	config->load("config.json");
+	modelImporter->init(config);
 
-	config->load(jsonConfigFile);
 	string model = config->getString("scene","filePath");
-	string modelPath = homeDirectory + model;
-
-	modelImporter->loadModel(modelPath);
+	modelImporter->loadModel(model);
 
 	display->init(config);
 

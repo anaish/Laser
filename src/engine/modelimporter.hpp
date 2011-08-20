@@ -18,6 +18,5 @@ class ModelImporter {
 public:
 	virtual void init(PConfig config) = 0;
 	virtual void loadModel(string fileName) = 0;
-	virtual ~ModelImporter(){}
 
 };

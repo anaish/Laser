@@ -11,5 +11,4 @@ class Display {
 public:
 	virtual void init(PConfig config) = 0;
 	virtual void OnRender() = 0;
-	virtual ~Display() {}
 };

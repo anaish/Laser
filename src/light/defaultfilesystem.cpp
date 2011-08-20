@@ -17,7 +17,7 @@ DefaultFileSystem :: DefaultFileSystem(){
 }
 
 /**
- *
+ *gets the user's home directory
  */
 string DefaultFileSystem::getHomeDirectory() {
 
@@ -25,7 +25,11 @@ string DefaultFileSystem::getHomeDirectory() {
 
 }
 
+string DefaultFileSystem::getGameDirectory(){
 
+	return "/Laser";
+
+}
 /**
  * Reads a file
  */

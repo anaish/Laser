@@ -18,7 +18,9 @@ class V8Config : public Config {
 
 public:
 	V8Config();
-	virtual void load(string json);
+	virtual void setFileSystem(PFileSystem fileSystem);
+	virtual PFileSystem getFileSystem();
+	virtual void load(string jsonFileName);
 	virtual int getInt(const char* category,const char* name);
 	virtual string getString(const char* category,const char* name);
 	virtual ~V8Config(){
@@ -34,6 +36,7 @@ private:
 	Handle<Object> rootObject;
 	Persistent<Context> context;
 	HandleScope handle_scope;
+	PFileSystem fileSystem;
 
 };
 

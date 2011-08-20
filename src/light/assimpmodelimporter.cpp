@@ -31,7 +31,7 @@ AssimpModelImporter::AssimpModelImporter(){
  */
 void AssimpModelImporter::init(PConfig config){
 
-
+	this->config = config;
 
 }
 /*
@@ -41,8 +41,14 @@ void AssimpModelImporter::loadModel(string fileName){
 
 	// we are taking one of the postprocessing presets to avoid
 	// writing 20 single postprocessing flags here.
+	PFileSystem fileSystem = config->getFileSystem();
+	string homeDirectory = fileSystem->getHomeDirectory();
+	string gameDirectory = fileSystem->getGameDirectory();
+	string modelPath = homeDirectory + gameDirectory + "/" + fileName;
 
-	scene = aiImportFile(fileName.c_str(),aiProcessPreset_TargetRealtime_Quality);
+	const char* modelFile = modelPath.c_str();
+
+	scene = aiImportFile(modelFile,aiProcessPreset_TargetRealtime_Quality);
 
 	assert(scene);
 

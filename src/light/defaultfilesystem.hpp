@@ -17,6 +17,7 @@ public:
 
 	DefaultFileSystem();
 	virtual string getHomeDirectory();
+	virtual string getGameDirectory();
 	virtual string readFile(string fileName);
 
 };

@@ -27,6 +27,6 @@ private:
 	struct aiMatrix4x4* trafo
 	);
 	void get_bounding_box (struct aiVector3D* min, struct aiVector3D* max);
-
+	PConfig config;
 
 };

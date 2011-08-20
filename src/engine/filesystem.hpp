@@ -16,6 +16,6 @@ class FileSystem {
 public:
 	virtual string readFile(string fullPath) = 0;
 	virtual string getHomeDirectory() = 0;
-	virtual ~FileSystem(){}
+	virtual string getGameDirectory() = 0;
 
 };

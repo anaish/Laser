@@ -19,4 +19,10 @@ libs = Split("""
 	v8
 """)
 
-Program('laser', files, LIBS=libs)
+env = Environment()
+debug = ARGUMENTS.get('debug', 0)
+if int(debug):
+ env.Append(CCFLAGS = '-g')
+ 
+
+env.Program('laser', files, LIBS=libs)

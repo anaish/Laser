@@ -17,12 +17,26 @@ V8Config :: V8Config(){
 }
 
 
+void V8Config::setFileSystem(PFileSystem fileSystem){
+
+	this->fileSystem = fileSystem;
+}
+
+PFileSystem V8Config::getFileSystem(){
+
+	return this->fileSystem;
+}
+
 /**
 Loads the config from JSON files
 **/
-void V8Config::load(string json){
+void V8Config::load(string jsonFileName){
 
 	LOG(ERROR) << "Loading configuration";
+
+	string homeDirectory = fileSystem->getHomeDirectory() + "/Laser";
+	string jsonConfigFile = fileSystem->readFile(homeDirectory + "/" + jsonFileName);
+
 
 	//create the context
 	context = Context::New();
@@ -34,7 +48,7 @@ void V8Config::load(string json){
 	// Create a string containing the JavaScript source code.
 	string evalStart("eval(");
 	string evalEnd(");");
-	string evalJson = evalStart + json + evalEnd;
+	string evalJson = evalStart + jsonConfigFile + evalEnd;
 	Handle<String> source = String::New(evalJson.c_str());
 
 	// Compile the source code.

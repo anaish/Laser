@@ -23,7 +23,7 @@ void OpenGlDisplay::init(PConfig config){
 	int displayWidth = config->getInt("display","width");
 	int displayHeight = config->getInt("display","height");
 
-	screen = PSurface(SDL_SetVideoMode(displayWidth,displayHeight , 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL));
+	screen = SDL_SetVideoMode(displayWidth,displayHeight , 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL);
 
     	if(screen == NULL) {
         	LOG(ERROR) << "Unable to init screen";
