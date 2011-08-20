@@ -13,13 +13,17 @@
 
 using namespace std;
 
+#define aisgl_min(x,y) (x<y?x:y)
+#define aisgl_max(x,y) (y>x?y:x)
+
+
+
 
 class AssimpModelImporter : public ModelImporter {
 
 public:
 	AssimpModelImporter();
 	virtual void init(PConfig config);
-	virtual void loadModel(string fileName);
 private:
 	void get_bounding_box_for_node (const struct aiNode* nd,
 	struct aiVector3D* min,
@@ -28,5 +32,8 @@ private:
 	);
 	void get_bounding_box (struct aiVector3D* min, struct aiVector3D* max);
 	PConfig config;
+	struct aiVector3D scene_min, scene_max, scene_center;
+	void loadModel(string fileName);
+
 
 };

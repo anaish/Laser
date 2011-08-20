@@ -12,14 +12,11 @@
 #include <string>
 #include <cassert>
 
-using namespace std;
 
-#define aisgl_min(x,y) (x<y?x:y)
-#define aisgl_max(x,y) (y>x?y:x)
+using namespace std;
 
 // the global Assimp scene object
 const struct aiScene* scene = NULL;
-struct aiVector3D scene_min, scene_max, scene_center;
 
 AssimpModelImporter::AssimpModelImporter(){
 

@@ -22,9 +22,6 @@ void Engine::init() {
 	config->load("config.json");
 	modelImporter->init(config);
 
-	string model = config->getString("scene","filePath");
-	modelImporter->loadModel(model);
-
 	display->init(config);
 
 	bool running = true;

@@ -13,10 +13,10 @@ using namespace std;
 
 typedef std::tr1::shared_ptr<Config> PConfig;
 
+
 class ModelImporter {
 
 public:
 	virtual void init(PConfig config) = 0;
-	virtual void loadModel(string fileName) = 0;
 
 };
