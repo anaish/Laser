@@ -6,6 +6,9 @@
 #include <GL/glu.h>
 
 #include "../engine/display.hpp"
+#include "assimpmodelimporter.hpp"
+
+typedef std::tr1::shared_ptr<AssimpModelImporter> PModelImporter;
 
 class OpenGlDisplay : public Display {
 public:
@@ -14,5 +17,7 @@ public:
 	virtual void OnRender();
 private:
 	SDL_Surface* screen;
+	PModelImporter modelImporter;
+
 
 };

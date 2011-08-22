@@ -13,6 +13,10 @@ Should only be called once.
 **/
 void OpenGlDisplay::init(PConfig config){
 	
+	LOG(ERROR) << "Initialising Model Importer";
+
+	this->modelImporter = PModelImporter(new AssimpModelImporter());
+	this->modelImporter->init(config);
 
 	LOG(ERROR) << "Initialising OpenGL";
 

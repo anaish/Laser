@@ -16,13 +16,11 @@ int main(int argc, char* argv[]) {
 	PDisplay openGlDisplay(new OpenGlDisplay());
 	PConfig v8Config(new V8Config());
 	PFileSystem fileSystem(new DefaultFileSystem());
-	PModelImporter modelImporter(new AssimpModelImporter());
 
 	Engine engine(lightRules);
 	engine.setConfig(v8Config);
 	engine.setDisplay(openGlDisplay);
 	engine.setFileSystem(fileSystem);
-	engine.setModelImporter(modelImporter);
 	engine.init();
 	engine.run();
 	LOG(ERROR) << "Ending Light";

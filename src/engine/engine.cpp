@@ -16,11 +16,9 @@ void Engine::init() {
 	assert(config);
 	assert(display);
 	assert(fileSystem);
-	assert(modelImporter);
 
 	config->setFileSystem(fileSystem);
 	config->load("config.json");
-	modelImporter->init(config);
 
 	display->init(config);
 
@@ -67,17 +65,6 @@ void Engine::setConfig(PConfig config){
 	this->config = config;
 
 }
-
-/**
- * Sets the configuration this engine will use
- */
-void Engine::setModelImporter(PModelImporter modelImporter){
-
-	LOG(ERROR) << "Setting configuration";
-	this->modelImporter = modelImporter;
-
-}
-
 
 /**
 Runs this engine's current rule

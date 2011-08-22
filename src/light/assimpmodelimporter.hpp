@@ -5,7 +5,7 @@
  *      Author: andrew
  */
 #pragma once
-#include "../engine/modelimporter.hpp"
+#include "../engine/config.hpp"
 #include <assimp/assimp.h>
 #include <assimp/aiPostProcess.h>
 #include <assimp/aiScene.h>
@@ -17,13 +17,13 @@ using namespace std;
 #define aisgl_max(x,y) (y>x?y:x)
 
 
+typedef std::tr1::shared_ptr<Config> PConfig;
 
-
-class AssimpModelImporter : public ModelImporter {
+class AssimpModelImporter {
 
 public:
 	AssimpModelImporter();
-	virtual void init(PConfig config);
+	void init(PConfig config);
 private:
 	void get_bounding_box_for_node (const struct aiNode* nd,
 	struct aiVector3D* min,
@@ -34,6 +34,5 @@ private:
 	PConfig config;
 	struct aiVector3D scene_min, scene_max, scene_center;
 	void loadModel(string fileName);
-
 
 };
