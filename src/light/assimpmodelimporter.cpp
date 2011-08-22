@@ -31,7 +31,6 @@ void AssimpModelImporter::init(PConfig config){
 	this->config = config;
 
 	string modelFileName = config->getString("scene","filePath");
-
 	assert(modelFileName.length()!=0);
 
 	this->loadModel(modelFileName);
