@@ -1,5 +1,8 @@
 #include "opengldisplay.hpp"
 
+static float angle = 0.f;
+GLuint scene_list = 0;
+
 /**
 An opengl implementation of the Display interface.
 **/
@@ -67,7 +70,10 @@ we have to skip frames to achieve it.
 **/
 void OpenGlDisplay::OnRender(){
 
-
+	/*
+	 * call this instead when we have it working
+	 * this->render();
+	 */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glBegin(GL_QUADS);
@@ -84,4 +90,229 @@ void OpenGlDisplay::OnRender(){
 	glEnd();
 	SDL_GL_SwapBuffers();
 
+}
+
+
+
+// ----------------------------------------------------------------------------
+void do_motion (void)
+{
+	static GLint prev_time = 0;
+	//TODO: gl
+	/*
+	int time = glutGet(GLUT_ELAPSED_TIME);
+	angle += (time-prev_time)*0.01;
+	prev_time = time;
+
+	glutPostRedisplay ();
+	*/
+}
+
+// ----------------------------------------------------------------------------
+void OpenGlDisplay::render(void)
+{
+	float tmp;
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	//TODO: gl
+	/*
+	gluLookAt(0.f,0.f,3.f,0.f,0.f,-5.f,0.f,1.f,0.f);
+*/
+	// rotate it around the y axis
+	glRotatef(angle,0.f,1.f,0.f);
+
+	// scale the whole asset to fit into our view frustum
+	tmp = this->modelImporter->scene_max.x-this->modelImporter->scene_min.x;
+	tmp = aisgl_max(this->modelImporter->scene_max.y - this->modelImporter->scene_min.y,tmp);
+	tmp = aisgl_max(this->modelImporter->scene_max.z - this->modelImporter->scene_min.z,tmp);
+	tmp = 1.f / tmp;
+	glScalef(tmp, tmp, tmp);
+
+        // center the model
+	glTranslatef( -this->modelImporter->scene_center.x, -this->modelImporter->scene_center.y, -this->modelImporter->scene_center.z );
+
+        // if the display list has not been made yet, create a new one and
+        // fill it with scene contents
+	if(scene_list == 0) {
+	    scene_list = glGenLists(1);
+	    glNewList(scene_list, GL_COMPILE);
+            // now begin at the root node of the imported data and traverse
+            // the scenegraph by multiplying subsequent local transforms
+            // together on GL's matrix stack.
+	    const aiScene* scene = modelImporter->getScene();
+	    recursive_render(scene, scene->mRootNode);
+	    glEndList();
+	}
+
+	glCallList(scene_list);
+
+	//TODO: gl
+	//glutSwapBuffers();
+
+	do_motion();
+}
+
+
+
+// ----------------------------------------------------------------------------
+void OpenGlDisplay::recursive_render (const struct aiScene *sc, const struct aiNode* nd)
+{
+	int i;
+	unsigned int n = 0, t;
+	struct aiMatrix4x4 m = nd->mTransformation;
+
+	// update transform
+	aiTransposeMatrix4(&m);
+	glPushMatrix();
+	glMultMatrixf((float*)&m);
+
+	// draw all meshes assigned to this node
+    const aiScene* scene = modelImporter->getScene();
+
+	for (; n < nd->mNumMeshes; ++n) {
+		const struct aiMesh* mesh = scene->mMeshes[nd->mMeshes[n]];
+
+		apply_material(sc->mMaterials[mesh->mMaterialIndex]);
+
+		if(mesh->mNormals == NULL) {
+			glDisable(GL_LIGHTING);
+		} else {
+			glEnable(GL_LIGHTING);
+		}
+
+		if(mesh->mColors[0] != NULL) {
+			glEnable(GL_COLOR_MATERIAL);
+		} else {
+			glDisable(GL_COLOR_MATERIAL);
+		}
+
+		for (t = 0; t < mesh->mNumFaces; ++t) {
+			const struct aiFace* face = &mesh->mFaces[t];
+			GLenum face_mode;
+
+			switch(face->mNumIndices) {
+				case 1: face_mode = GL_POINTS; break;
+				case 2: face_mode = GL_LINES; break;
+				case 3: face_mode = GL_TRIANGLES; break;
+				default: face_mode = GL_POLYGON; break;
+			}
+
+			glBegin(face_mode);
+
+			for(i = 0; i < face->mNumIndices; i++) {
+				int index = face->mIndices[i];
+				if(mesh->mColors[0] != NULL)
+					color4f(&mesh->mColors[0][index]);
+				if(mesh->mNormals != NULL)
+					glNormal3fv(&mesh->mNormals[index].x);
+				glVertex3fv(&mesh->mVertices[index].x);
+			}
+
+			glEnd();
+		}
+
+	}
+
+	// draw all children
+	for (n = 0; n < nd->mNumChildren; ++n) {
+		recursive_render(sc, nd->mChildren[n]);
+	}
+
+	glPopMatrix();
+}
+
+/**
+ * Applies the material
+ */
+void OpenGlDisplay::apply_material(const struct aiMaterial *mtl){
+
+	float c[4];
+
+	GLenum fill_mode;
+	unsigned int ret1, ret2;
+	struct aiColor4D diffuse;
+	struct aiColor4D specular;
+	struct aiColor4D ambient;
+	struct aiColor4D emission;
+	float shininess, strength;
+	int two_sided;
+	int wireframe;
+	unsigned int max;
+
+	set_float4(c, 0.8f, 0.8f, 0.8f, 1.0f);
+	if(AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_DIFFUSE, &diffuse))
+		color4_to_float4(&diffuse, c);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, c);
+
+	set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
+	if(AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_SPECULAR, &specular))
+		color4_to_float4(&specular, c);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, c);
+
+	set_float4(c, 0.2f, 0.2f, 0.2f, 1.0f);
+	if(AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_AMBIENT, &ambient))
+		color4_to_float4(&ambient, c);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, c);
+
+	set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
+	if(AI_SUCCESS == aiGetMaterialColor(mtl, AI_MATKEY_COLOR_EMISSIVE, &emission))
+		color4_to_float4(&emission, c);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, c);
+
+	max = 1;
+	ret1 = aiGetMaterialFloatArray(mtl, AI_MATKEY_SHININESS, &shininess, &max);
+	max = 1;
+	ret2 = aiGetMaterialFloatArray(mtl, AI_MATKEY_SHININESS_STRENGTH, &strength, &max);
+	if((ret1 == AI_SUCCESS) && (ret2 == AI_SUCCESS))
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess * strength);
+	else {
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0.0f);
+		set_float4(c, 0.0f, 0.0f, 0.0f, 0.0f);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, c);
+	}
+
+	max = 1;
+	if(AI_SUCCESS == aiGetMaterialIntegerArray(mtl, AI_MATKEY_ENABLE_WIREFRAME, &wireframe, &max))
+		fill_mode = wireframe ? GL_LINE : GL_FILL;
+	else
+		fill_mode = GL_FILL;
+	glPolygonMode(GL_FRONT_AND_BACK, fill_mode);
+
+	max = 1;
+	if((AI_SUCCESS == aiGetMaterialIntegerArray(mtl, AI_MATKEY_TWOSIDED, &two_sided, &max)) && two_sided)
+		glEnable(GL_CULL_FACE);
+	else
+		glDisable(GL_CULL_FACE);
+
+
+}
+
+// Can't send color down as a pointer to aiColor4D because AI colors are ABGR.
+void OpenGlDisplay::color4f(const struct aiColor4D *color)
+{
+	glColor4f(color->r, color->g, color->b, color->a);
+}
+
+
+// ----------------------------------------------------------------------------
+
+void OpenGlDisplay::color4_to_float4(const struct aiColor4D *c, float f[4])
+{
+	f[0] = c->r;
+	f[1] = c->g;
+	f[2] = c->b;
+	f[3] = c->a;
+}
+
+// ----------------------------------------------------------------------------
+
+void OpenGlDisplay::set_float4(float f[4], float a, float b, float c, float d)
+{
+	f[0] = a;
+	f[1] = b;
+	f[2] = c;
+	f[3] = d;
 }

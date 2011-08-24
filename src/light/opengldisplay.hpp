@@ -7,6 +7,10 @@
 
 #include "../engine/display.hpp"
 #include "assimpmodelimporter.hpp"
+#include <assimp/assimp.h>
+#include <assimp/aiPostProcess.h>
+#include <assimp/aiScene.h>
+
 
 typedef std::tr1::shared_ptr<AssimpModelImporter> PModelImporter;
 
@@ -16,8 +20,15 @@ public:
 	virtual void init(PConfig config);
 	virtual void OnRender();
 private:
+	void apply_material(const struct aiMaterial *mtl);
+	void set_float4(float f[4], float a, float b, float c, float d);
+	void color4_to_float4(const struct aiColor4D *c, float f[4]);
+	void recursive_render (const struct aiScene *sc, const struct aiNode* nd);
+	void color4f(const struct aiColor4D *color);
+	void render(void);
 	SDL_Surface* screen;
 	PModelImporter modelImporter;
+
 
 
 };

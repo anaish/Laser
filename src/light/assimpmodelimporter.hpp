@@ -24,6 +24,8 @@ class AssimpModelImporter {
 public:
 	AssimpModelImporter();
 	void init(PConfig config);
+	const aiScene* getScene();
+	struct aiVector3D scene_min, scene_max, scene_center;
 private:
 	void get_bounding_box_for_node (const struct aiNode* nd,
 	struct aiVector3D* min,
@@ -32,7 +34,6 @@ private:
 	);
 	void get_bounding_box (struct aiVector3D* min, struct aiVector3D* max);
 	PConfig config;
-	struct aiVector3D scene_min, scene_max, scene_center;
 	void loadModel(string fileName);
 
 };

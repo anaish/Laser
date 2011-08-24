@@ -23,6 +23,11 @@ AssimpModelImporter::AssimpModelImporter(){
 
 }
 
+const aiScene* AssimpModelImporter::getScene(){
+
+	return scene;
+}
+
 /**
  * Loads the models into memory
  */
