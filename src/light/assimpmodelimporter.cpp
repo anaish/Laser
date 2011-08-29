@@ -23,13 +23,16 @@ AssimpModelImporter::AssimpModelImporter(){
 
 }
 
+/**
+ * Returns the scene
+ */
 const aiScene* AssimpModelImporter::getScene(){
 
 	return scene;
 }
 
 /**
- * Loads the models into memory
+ * Loads the models into the scene object
  */
 void AssimpModelImporter::init(PConfig config){
 

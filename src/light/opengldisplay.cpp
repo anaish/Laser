@@ -1,6 +1,5 @@
 #include "opengldisplay.hpp"
 
-static float angle = 0.f;
 GLuint scene_list = 0;
 
 /**
@@ -36,27 +35,44 @@ void OpenGlDisplay::init(PConfig config){
         	LOG(ERROR) << "Unable to init screen";
     	}
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
-	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
-	SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,  8);
-	SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
-	SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
-	
-	glClearColor(0, 0, 0, 0);
-	glViewport(0, 0, 640, 480);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, 640, 480, 0, 1, -1);
-	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_TEXTURE_2D);
-	glLoadIdentity();
+//	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
+//	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
+//	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
+//	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
+//	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
+//	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
+//	SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,  8);
+//	SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
+//	SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE, 8);
+//	SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
+//	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
+//	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
+//
+//	glClearColor(0, 0, 0, 0);
+//	glViewport(0, 0, displayWidth, displayHeight);
+//	glMatrixMode(GL_PROJECTION);
+//	glLoadIdentity();
+//	glOrtho(0, displayWidth, displayHeight, 0, 1, -1);
+
+    	glEnable(GL_TEXTURE_2D);
+    	glShadeModel(GL_SMOOTH);		 // Enables Smooth Shading
+    	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    	glClearDepth(1.0f);				// Depth Buffer Setup
+    	glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
+    	glDepthFunc(GL_LEQUAL);			// The Type Of Depth Test To Do
+    	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculation
+
+
+    	glEnable(GL_LIGHTING);
+    	glEnable(GL_LIGHT0);    // Uses default lighting parameters
+    	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    	glEnable(GL_NORMALIZE);
+
+//    		glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);
+//    		glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
+//    		glLightfv(GL_LIGHT1, GL_POSITION, LightPosition);
+    	glEnable(GL_LIGHT1);
+
 
 
 } 
@@ -70,43 +86,10 @@ we have to skip frames to achieve it.
 **/
 void OpenGlDisplay::OnRender(){
 
-	/*
-	 * call this instead when we have it working
-	 * this->render();
-	 */
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-	glBegin(GL_QUADS);
-
-		/*TODO here we need to draw our assets - once we get around to it, perhaps we should 
-		refactor this out so that it calls an "open gl" implementation of a "game object"
-		interface. That way, if we use the same engine for different games, we can create 
-		other types of game objects (e.g a 2d sprite/webgl/whatever) 
-		*/
-		glColor3f(1, 0, 0); glVertex3f(0, 0, 0);
-		glColor3f(1, 1, 0); glVertex3f(100, 0, 0);
-		glColor3f(1, 0, 1); glVertex3f(100, 100, 0);
-		glColor3f(1, 1, 1); glVertex3f(0, 100, 0);
-	glEnd();
-	SDL_GL_SwapBuffers();
+	 this->render();
 
 }
 
-
-
-// ----------------------------------------------------------------------------
-void do_motion (void)
-{
-	static GLint prev_time = 0;
-	//TODO: gl
-	/*
-	int time = glutGet(GLUT_ELAPSED_TIME);
-	angle += (time-prev_time)*0.01;
-	prev_time = time;
-
-	glutPostRedisplay ();
-	*/
-}
 
 // ----------------------------------------------------------------------------
 void OpenGlDisplay::render(void)
@@ -116,15 +99,11 @@ void OpenGlDisplay::render(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//TODO: gl
-	/*
-	gluLookAt(0.f,0.f,3.f,0.f,0.f,-5.f,0.f,1.f,0.f);
-*/
-	// rotate it around the y axis
-	glRotatef(angle,0.f,1.f,0.f);
 
-	// scale the whole asset to fit into our view frustum
+	glLoadIdentity();
+
+	// scale the asset to fit into our view
+
 	tmp = this->modelImporter->scene_max.x-this->modelImporter->scene_min.x;
 	tmp = aisgl_max(this->modelImporter->scene_max.y - this->modelImporter->scene_min.y,tmp);
 	tmp = aisgl_max(this->modelImporter->scene_max.z - this->modelImporter->scene_min.z,tmp);
@@ -132,7 +111,9 @@ void OpenGlDisplay::render(void)
 	glScalef(tmp, tmp, tmp);
 
         // center the model
-	glTranslatef( -this->modelImporter->scene_center.x, -this->modelImporter->scene_center.y, -this->modelImporter->scene_center.z );
+	glTranslatef(-(this->modelImporter->scene_center.x),
+			-(this->modelImporter->scene_center.y),
+			-this->modelImporter->scene_center.z);
 
         // if the display list has not been made yet, create a new one and
         // fill it with scene contents
@@ -149,18 +130,15 @@ void OpenGlDisplay::render(void)
 
 	glCallList(scene_list);
 
-	//TODO: gl
-	//glutSwapBuffers();
+	SDL_GL_SwapBuffers();
 
-	do_motion();
 }
-
 
 
 // ----------------------------------------------------------------------------
 void OpenGlDisplay::recursive_render (const struct aiScene *sc, const struct aiNode* nd)
 {
-	int i;
+	unsigned int i;
 	unsigned int n = 0, t;
 	struct aiMatrix4x4 m = nd->mTransformation;
 
@@ -201,7 +179,6 @@ void OpenGlDisplay::recursive_render (const struct aiScene *sc, const struct aiN
 			}
 
 			glBegin(face_mode);
-
 			for(i = 0; i < face->mNumIndices; i++) {
 				int index = face->mIndices[i];
 				if(mesh->mColors[0] != NULL)
