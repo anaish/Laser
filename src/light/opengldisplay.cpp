@@ -2,6 +2,11 @@
 
 GLuint scene_list = 0;
 
+GLfloat LightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
+GLfloat LightDiffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat LightPosition[]= { 0.0f, 0.0f, 15.0f, 1.0f };
+
+
 /**
 An opengl implementation of the Display interface.
 **/
@@ -35,43 +40,38 @@ void OpenGlDisplay::init(PConfig config){
         	LOG(ERROR) << "Unable to init screen";
     	}
 
-//	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
-//	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
-//	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
-//	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
-//	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
-//	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
-//	SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,  8);
-//	SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
-//	SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE, 8);
-//	SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
-//	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
-//	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
-//
-//	glClearColor(0, 0, 0, 0);
-//	glViewport(0, 0, displayWidth, displayHeight);
-//	glMatrixMode(GL_PROJECTION);
-//	glLoadIdentity();
-//	glOrtho(0, displayWidth, displayHeight, 0, 1, -1);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
+	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,     32);
+	SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,  8);
+	SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
+	SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
-    	glEnable(GL_TEXTURE_2D);
-    	glShadeModel(GL_SMOOTH);		 // Enables Smooth Shading
-    	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-    	glClearDepth(1.0f);				// Depth Buffer Setup
-    	glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
-    	glDepthFunc(GL_LEQUAL);			// The Type Of Depth Test To Do
-    	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculation
+	glViewport(0, 0, displayWidth, displayHeight);
+	glOrtho(0, displayWidth, displayHeight, 0, 1, -1);
 
+    glEnable(GL_TEXTURE_2D);
+	glShadeModel(GL_SMOOTH);		 // Enables Smooth Shading
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearDepth(1.0f);				// Depth Buffer Setup
+	glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
+	glDepthFunc(GL_LEQUAL);			// The Type Of Depth Test To Do
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculation
 
-    	glEnable(GL_LIGHTING);
-    	glEnable(GL_LIGHT0);    // Uses default lighting parameters
-    	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-    	glEnable(GL_NORMALIZE);
-
-//    		glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);
-//    		glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
-//    		glLightfv(GL_LIGHT1, GL_POSITION, LightPosition);
-    	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);    // Uses default lighting parameters
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glEnable(GL_NORMALIZE);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
+	glLightfv(GL_LIGHT1, GL_POSITION, LightPosition);
+	glEnable(GL_LIGHT1);
 
 
 
