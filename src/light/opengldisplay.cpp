@@ -6,6 +6,9 @@ GLfloat LightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
 GLfloat LightDiffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
 GLfloat LightPosition[]= { 0.0f, 0.0f, 15.0f, 1.0f };
 
+// current rotation angle
+static float angle = 0.f;
+
 
 /**
 An opengl implementation of the Display interface.
@@ -74,7 +77,6 @@ void OpenGlDisplay::init(PConfig config){
 	glEnable(GL_LIGHT1);
 
 
-
 } 
 
 /**
@@ -90,11 +92,20 @@ void OpenGlDisplay::OnRender(){
 
 }
 
+void OpenGlDisplay::doMotion(){
+
+	static GLint prev_time = 0;
+	unsigned int time = SDL_GetTicks();
+	angle += (time-prev_time)*0.01;
+	prev_time = time;
+
+
+}
+
 
 // ----------------------------------------------------------------------------
 void OpenGlDisplay::render(void)
 {
-	float tmp;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -103,17 +114,24 @@ void OpenGlDisplay::render(void)
 	glLoadIdentity();
 
 	// scale the asset to fit into our view
-
+	float tmp;
 	tmp = this->modelImporter->scene_max.x-this->modelImporter->scene_min.x;
 	tmp = aisgl_max(this->modelImporter->scene_max.y - this->modelImporter->scene_min.y,tmp);
 	tmp = aisgl_max(this->modelImporter->scene_max.z - this->modelImporter->scene_min.z,tmp);
 	tmp = 1.f / tmp;
 	glScalef(tmp, tmp, tmp);
 
-        // center the model
+     // center the model
 	glTranslatef(-(this->modelImporter->scene_center.x),
 			-(this->modelImporter->scene_center.y),
 			-this->modelImporter->scene_center.z);
+
+	// rotate it around the y axis
+	/*TODO at the moment it only rotates when you do some SDL event (like click the mouse or
+	 * press a key) We really need to look at moving the object in a more generic way
+	 * like using a physics engine, and have it react to user input (and other game objects)
+	*/
+	glRotatef(angle,0.f,1.f,0.f);
 
         // if the display list has not been made yet, create a new one and
         // fill it with scene contents
@@ -131,7 +149,7 @@ void OpenGlDisplay::render(void)
 	glCallList(scene_list);
 
 	SDL_GL_SwapBuffers();
-
+	doMotion();
 }
 
 

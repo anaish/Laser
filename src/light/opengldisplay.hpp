@@ -26,6 +26,7 @@ private:
 	void recursive_render (const struct aiScene *sc, const struct aiNode* nd);
 	void color4f(const struct aiColor4D *color);
 	void render(void);
+	void doMotion();
 	SDL_Surface* screen;
 	PModelImporter modelImporter;
 
