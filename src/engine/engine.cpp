@@ -29,9 +29,10 @@ void Engine::init() {
 			if( event.type == SDL_QUIT )
 				running = false;
 
-			display->OnRender();
+
 
 		}
+		display->OnRender();
 	}
 	SDL_Quit();
 }

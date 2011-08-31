@@ -39,9 +39,9 @@ void OpenGlDisplay::init(PConfig config){
 
 	screen = SDL_SetVideoMode(displayWidth,displayHeight , 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL);
 
-    	if(screen == NULL) {
-        	LOG(ERROR) << "Unable to init screen";
-    	}
+	if(screen == NULL) {
+		LOG(ERROR) << "Unable to init screen";
+	}
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
