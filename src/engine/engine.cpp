@@ -16,20 +16,25 @@ void Engine::init() {
 	assert(config);
 	assert(display);
 	assert(fileSystem);
+	assert(physics);
 
 	config->setFileSystem(fileSystem);
 	config->load("config.json");
-
 	display->init(config);
+
+	physics->setDisplay(display);
 
 	bool running = true;
 	SDL_Event event;
 	while(running) {
 		while(SDL_PollEvent(&event)) {
-			if( event.type == SDL_QUIT )
-				running = false;
+			switch (event.type) {
+				case SDL_QUIT:
+				   	running = false;
+				   	break;
+			}
 
-
+			physics->onEvent(&event);
 
 		}
 		display->OnRender();
@@ -43,6 +48,15 @@ void Engine::setDisplay(PDisplay display){
 
 	LOG(ERROR) << "Setting display";
 	this->display = display;
+
+}
+
+/**
+ * Sets the physics engine
+ */
+void Engine::setPhysics(PPhysics physics){
+
+	this->physics = physics;
 
 }
 

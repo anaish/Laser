@@ -8,6 +8,7 @@ files = Split("""
 	work/light/v8config.cpp
 	work/light/defaultfilesystem.cpp
 	work/light/assimpmodelimporter.cpp
+	work/light/defaultphysics.cpp
 """)
 
 libs = Split("""

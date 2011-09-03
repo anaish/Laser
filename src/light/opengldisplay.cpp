@@ -7,7 +7,11 @@ GLfloat LightDiffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
 GLfloat LightPosition[]= { 0.0f, 0.0f, 15.0f, 1.0f };
 
 // current rotation angle
-static float angle = 0.f;
+static float rotationAngle = 0.f;
+static float rotationX = 0.f;
+static float rotationY = 0.f;
+static float rotationZ = 0.f;
+
 
 
 /**
@@ -16,6 +20,7 @@ An opengl implementation of the Display interface.
 OpenGlDisplay :: OpenGlDisplay(){
 
 }
+
 
 /**
 Initialises the Open GL context.
@@ -92,13 +97,12 @@ void OpenGlDisplay::OnRender(){
 
 }
 
-void OpenGlDisplay::doMotion(){
+void OpenGlDisplay::rotateScene(float angle, float x, float y, float z){
 
-	static GLint prev_time = 0;
-	unsigned int time = SDL_GetTicks();
-	angle += (time-prev_time)*0.01;
-	prev_time = time;
-
+	rotationAngle += angle;
+	rotationX = x;
+	rotationY = y;
+	rotationZ = z;
 
 }
 
@@ -131,7 +135,7 @@ void OpenGlDisplay::render(void)
 	 * press a key) We really need to look at moving the object in a more generic way
 	 * like using a physics engine, and have it react to user input (and other game objects)
 	*/
-	glRotatef(angle,0.f,1.f,0.f);
+	glRotatef(rotationAngle,rotationX,rotationY,rotationZ);
 
         // if the display list has not been made yet, create a new one and
         // fill it with scene contents
@@ -149,7 +153,6 @@ void OpenGlDisplay::render(void)
 	glCallList(scene_list);
 
 	SDL_GL_SwapBuffers();
-	doMotion();
 }
 
 

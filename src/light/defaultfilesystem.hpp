@@ -10,6 +10,8 @@
 
 using namespace std;
 
+#ifndef DEFAULTFILESYSTEM_HPP_
+#define DEFAULTFILESYSTEM_HPP_
 
 class DefaultFileSystem : public FileSystem{
 
@@ -22,3 +24,4 @@ public:
 
 };
 
+#endif

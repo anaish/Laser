@@ -13,6 +13,8 @@
 using namespace std;
 using namespace v8;
 
+#ifndef V8CONFIG_HPP_
+#define V8CONFIG_HPP_
 
 class V8Config : public Config {
 
@@ -40,3 +42,4 @@ private:
 
 };
 
+#endif

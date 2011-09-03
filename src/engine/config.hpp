@@ -11,14 +11,20 @@ using namespace std;
 
 typedef std::tr1::shared_ptr<FileSystem> PFileSystem;
 
+#ifndef CONFIG_HPP_
+#define CONFIG_HPP_
+
 class Config {
+
 public:
 	virtual void load(string jsonFileName) = 0;
 	virtual void setFileSystem(PFileSystem fileSystem)=0;
 	virtual PFileSystem getFileSystem()=0;
-	//gets an integer parameter - eg "display","width"s
+	//gets an integer parameter - eg "display","width"
 	virtual int getInt(const char* category,const char* name) = 0;
 	virtual string getString(const char* category,const char* name) = 0;
 private:
 	PFileSystem fileSystem;
 };
+
+#endif

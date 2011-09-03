@@ -2,6 +2,10 @@
 
 #include <string>
 
+#ifndef RULE_HPP_
+#define RULE_HPP_
+
+
 class Rule {
 public:
 	virtual void run() = 0;
@@ -11,3 +15,5 @@ public:
 protected:
 	std::string name;
 };
+
+#endif

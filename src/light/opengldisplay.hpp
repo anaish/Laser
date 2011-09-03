@@ -14,11 +14,15 @@
 
 typedef std::tr1::shared_ptr<AssimpModelImporter> PModelImporter;
 
+#ifndef OPENGLDISPLAY_HPP_
+#define OPENGLDISPLAY_HPP_
+
 class OpenGlDisplay : public Display {
 public:
 	OpenGlDisplay();
 	virtual void init(PConfig config);
 	virtual void OnRender();
+	virtual void rotateScene(float angle,float x,float y, float z);
 private:
 	void apply_material(const struct aiMaterial *mtl);
 	void set_float4(float f[4], float a, float b, float c, float d);
@@ -30,6 +34,5 @@ private:
 	SDL_Surface* screen;
 	PModelImporter modelImporter;
 
-
-
 };
+#endif

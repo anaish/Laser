@@ -10,6 +10,8 @@
 
 using namespace std;
 
+#ifndef FILESYSTEM_HPP_
+#define FILESYSTEM_HPP_
 
 class FileSystem {
 
@@ -19,3 +21,5 @@ public:
 	virtual string getGameDirectory() = 0;
 
 };
+
+#endif

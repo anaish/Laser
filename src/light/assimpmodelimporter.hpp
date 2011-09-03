@@ -19,6 +19,9 @@ using namespace std;
 
 typedef std::tr1::shared_ptr<Config> PConfig;
 
+#ifndef ASSIMPMODELIMPORTER_HPP_
+#define ASSIMPMODELIMPORTER_HPP_
+
 class AssimpModelImporter {
 
 public:
@@ -37,3 +40,5 @@ private:
 	void loadModel(string fileName);
 
 };
+
+#endif

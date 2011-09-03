@@ -5,6 +5,8 @@
 #include "light/v8config.hpp"
 #include "light/defaultfilesystem.hpp"
 #include "light/assimpmodelimporter.hpp"
+#include "light/defaultphysics.hpp"
+
 
 int main(int argc, char* argv[]) {
 
@@ -16,11 +18,13 @@ int main(int argc, char* argv[]) {
 	PDisplay openGlDisplay(new OpenGlDisplay());
 	PConfig v8Config(new V8Config());
 	PFileSystem fileSystem(new DefaultFileSystem());
+	PPhysics physics(new DefaultPhysics());
 
 	Engine engine(lightRules);
 	engine.setConfig(v8Config);
 	engine.setDisplay(openGlDisplay);
 	engine.setFileSystem(fileSystem);
+	engine.setPhysics(physics);
 	engine.init();
 	engine.run();
 	LOG(ERROR) << "Ending Light";
