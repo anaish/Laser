@@ -11,7 +11,7 @@
 #include <assimp/aiScene.h>
 #include <string>
 #include <cassert>
-
+#include <glog/logging.h>
 
 using namespace std;
 

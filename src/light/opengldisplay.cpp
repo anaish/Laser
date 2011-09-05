@@ -130,11 +130,9 @@ void OpenGlDisplay::render(void)
 			-(this->modelImporter->scene_center.y),
 			-this->modelImporter->scene_center.z);
 
-	// rotate it around the y axis
-	/*TODO at the moment it only rotates when you do some SDL event (like click the mouse or
-	 * press a key) We really need to look at moving the object in a more generic way
-	 * like using a physics engine, and have it react to user input (and other game objects)
-	*/
+
+	// rotate it using the current scene rotation settings
+
 	glRotatef(rotationAngle,rotationX,rotationY,rotationZ);
 
         // if the display list has not been made yet, create a new one and
@@ -172,6 +170,9 @@ void OpenGlDisplay::recursive_render (const struct aiScene *sc, const struct aiN
     const aiScene* scene = modelImporter->getScene();
 
 	for (; n < nd->mNumMeshes; ++n) {
+		//this is the name of the node
+		LOG(ERROR) << nd->mName.data;
+
 		const struct aiMesh* mesh = scene->mMeshes[nd->mMeshes[n]];
 
 		apply_material(sc->mMaterials[mesh->mMaterialIndex]);

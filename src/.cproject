@@ -27,6 +27,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/SDL"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/assimp"/>
 									<listOptionValue builtIn="false" value="/usr/include/GL"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/bullet/BulletDynamics"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.624385536" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" valueType="includeFiles">
 									<listOptionValue builtIn="false" value="/usr/include/SDL/SDL.h"/>
@@ -36,6 +37,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/v8.h"/>
 									<listOptionValue builtIn="false" value="/usr/include/GL/gl.h"/>
 									<listOptionValue builtIn="false" value="/usr/include/glog/logging.h"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/bullet/BulletDynamics/btBulletDynamicsCommon.h"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.22449429" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -47,6 +49,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/glog"/>
 									<listOptionValue builtIn="false" value="/usr/local/include/assimp"/>
 									<listOptionValue builtIn="false" value="/usr/include/GL"/>
+									<listOptionValue builtIn="false" value="/usr/local/include/bullet/BulletDynamics"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.767757463" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -58,9 +61,10 @@
 									<listOptionValue builtIn="false" value="assimp"/>
 									<listOptionValue builtIn="false" value="GL"/>
 									<listOptionValue builtIn="false" value="v8"/>
+									<listOptionValue builtIn="false" value="BulletDynamics"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.692039467" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/usr/local/include/lib"/>
+									<listOptionValue builtIn="false" value="/usr/local/lib"/>
 									<listOptionValue builtIn="false" value="/usr/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1844857850" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
