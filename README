@@ -1,11 +1,13 @@
 **CONFIGURATION***
 
-In order to run Light you will need to make sure you have a config.json in <your home directory>/Laser
+In order to run Light you will need to make sure you have the config.json and test models in <your home directory>/Laser (only tested on linux)
+
+
 
 e.g:
 
 /home/username/Laser/config.json
-
+/home/username/Laser/models/*
 
 **COMPILATION**
 
@@ -52,10 +54,10 @@ full list of libraries:
 	sdl-ttf
 	google test
 	google mock
-	boost
 	scons
 	asset importer
 	google log (glog) : http://google-glog.googlecode.com/svn/trunk/doc/glog.html
+	ode (open dynamics engine)
 
 build specific ones:
 	google test
@@ -64,6 +66,9 @@ build specific ones:
 
 dev environment:
 	sudo apt-get install libv8-dev libsdl1.2-dev libgtest-dev google-mock libsdl-sound1.2-dev libsdl-ttf2.0-dev scons libboost-all-dev libgoogle-glog-dev
-	... and somehow get asset importer - might just have to build that ourselves
+
+	need to download/make/install the following
+	asset importer
+	open dynamics engine
 
 ... quite a list and will probably get bigger but fuck, saves us writing so much code.  - especially boost and v8

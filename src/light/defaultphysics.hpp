@@ -8,6 +8,8 @@
 #include "../engine/physics.hpp"
 #include <cassert>
 #include <SDL/SDL.h>
+#include <ode/ode.h>
+
 
 #ifndef DEFAULTPHYSICS_HPP_
 #define DEFAULTPHYSICS_HPP_

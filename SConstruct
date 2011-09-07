@@ -18,7 +18,7 @@ libs = Split("""
 	assimp
 	GL
 	v8
-	BulletDynamics
+	ode
 """)
 
 env = Environment()
