@@ -23,6 +23,7 @@ void Engine::init() {
 	display->init(config);
 
 	physics->setDisplay(display);
+	physics->init();
 
 	bool running = true;
 	SDL_Event event;
@@ -37,6 +38,7 @@ void Engine::init() {
 			physics->onEvent(&event);
 
 		}
+		physics->onLoop();
 		display->OnRender();
 	}
 	SDL_Quit();

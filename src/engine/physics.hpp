@@ -19,7 +19,10 @@ class Physics {
 
 public:
 	virtual void onEvent(SDL_Event* event)=0;
+	virtual void onLoop()=0;
 	virtual void setDisplay(PDisplay display)=0;
+	virtual void init()=0;
+
 private:
 	PDisplay display;
 

@@ -97,6 +97,9 @@ void OpenGlDisplay::OnRender(){
 
 }
 
+/**
+ * rotates the entire scene
+ */
 void OpenGlDisplay::rotateScene(float angle, float x, float y, float z){
 
 	rotationAngle += angle;
