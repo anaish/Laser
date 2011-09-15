@@ -156,6 +156,12 @@ void OpenGlDisplay::render(void)
 	SDL_GL_SwapBuffers();
 }
 
+//void updateNodeMatrix(string name,struct aiMatrix4x4 transform){
+//
+//	aiTransposeMatrix4(&transform);
+//
+//}
+
 
 // ----------------------------------------------------------------------------
 void OpenGlDisplay::recursive_render (const struct aiScene *sc, const struct aiNode* nd)
@@ -169,12 +175,13 @@ void OpenGlDisplay::recursive_render (const struct aiScene *sc, const struct aiN
 	glPushMatrix();
 	glMultMatrixf((float*)&m);
 
+	//this is the name of the mesh
+	LOG(ERROR) << nd->mName.data;
+
 	// draw all meshes assigned to this node
     const aiScene* scene = modelImporter->getScene();
 
 	for (; n < nd->mNumMeshes; ++n) {
-		//this is the name of the node
-		LOG(ERROR) << nd->mName.data;
 
 		const struct aiMesh* mesh = scene->mMeshes[nd->mMeshes[n]];
 
