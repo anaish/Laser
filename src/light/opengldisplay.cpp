@@ -21,6 +21,12 @@ OpenGlDisplay :: OpenGlDisplay(){
 
 }
 
+PModelImporter OpenGlDisplay::getModelImporter(){
+
+	return this->modelImporter;
+
+
+}
 
 /**
 Initialises the Open GL context.
@@ -110,6 +116,7 @@ void OpenGlDisplay::rotateScene(float angle, float x, float y, float z){
 }
 
 
+
 // ----------------------------------------------------------------------------
 void OpenGlDisplay::render(void)
 {
@@ -155,12 +162,6 @@ void OpenGlDisplay::render(void)
 
 	SDL_GL_SwapBuffers();
 }
-
-//void updateNodeMatrix(string name,struct aiMatrix4x4 transform){
-//
-//	aiTransposeMatrix4(&transform);
-//
-//}
 
 
 // ----------------------------------------------------------------------------

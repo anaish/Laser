@@ -70,11 +70,22 @@ void DefaultPhysics::onEvent(SDL_Event* event){
 
 		case SDL_MOUSEMOTION:
 			display->rotateScene(5.0,0.f,1.f,0.f);
+
 			break;
 
 	}
 
 }
+
+
+/*
+void moveObject(string name,){
+
+	const struct aiNode* weapon =
+
+
+}
+*/
 /**
  * Initialises the ODE world
  */
@@ -133,29 +144,38 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2){
 	static void createObjects(PDisplay display){
 
 		//	 display->getNodeNames();
-		//	 display->getCollisionGeometryForNode();
+		//	 display->getCollisionGeometryForObject(node name);
+		//	 display->getCollidableObjects();
 
-		  int i;
-		  dReal k;
-		  dMass m;
+		PModelImporter modelImporter = display->getModelImporter();
+		//probably stick all the objects that can be affected by physics into a lookup table
+		//that way we can quickly get the object we want to manipulate
+		//means each object really needs a unique name
+		//OR we could use recursion each time we need to get the node...
 
 
-		 for (i=0; i<NUM; i++) {
-		    body[i] = dBodyCreate (world);
-		    k = i*SIDE;
-		    dBodySetPosition (body[i],k,k,k+0.4);
-		    dMassSetBox (&m,1,SIDE,SIDE,SIDE);
-		    dMassAdjust (&m,MASS);
-		    dBodySetMass (body[i],&m);
-		    sphere[i] = dCreateSphere (space,RADIUS);
-		    dGeomSetBody (sphere[i],body[i]);
-		  }
-		  for (i=0; i<(NUM-1); i++) {
-		    joint[i] = dJointCreateBall (world,0);
-		    dJointAttach (joint[i],body[i],body[i+1]);
-		    k = (i+0.5)*SIDE;
-		    dJointSetBallAnchor (joint[i],k,k,k+0.4);
-		  }
+
+		int i;
+		dReal k;
+		dMass m;
+
+
+		for (i=0; i<NUM; i++) {
+			body[i] = dBodyCreate (world);
+			k = i*SIDE;
+			dBodySetPosition (body[i],k,k,k+0.4);
+			dMassSetBox (&m,1,SIDE,SIDE,SIDE);
+			dMassAdjust (&m,MASS);
+			dBodySetMass (body[i],&m);
+			sphere[i] = dCreateSphere (space,RADIUS);
+			dGeomSetBody (sphere[i],body[i]);
+		}
+		for (i=0; i<(NUM-1); i++) {
+			joint[i] = dJointCreateBall (world,0);
+			dJointAttach (joint[i],body[i],body[i+1]);
+			k = (i+0.5)*SIDE;
+			dJointSetBallAnchor (joint[i],k,k,k+0.4);
+		}
 
 
 	}

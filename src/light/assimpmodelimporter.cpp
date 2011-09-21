@@ -32,6 +32,30 @@ const aiScene* AssimpModelImporter::getScene(){
 }
 
 /**
+ * gets a node by it's name - uses recursion
+ */
+const struct aiNode* AssimpModelImporter::getNodeByName(string nodeName,const struct aiNode* nd){
+
+	unsigned int n = 0;
+
+	for (; n < nd->mNumMeshes; ++n) {
+		if(nd->mName.data==nodeName){
+			return nd;
+		}
+	}
+
+	// draw all children
+	for (n = 0; n < nd->mNumChildren; ++n) {
+		return getNodeByName(nodeName, nd->mChildren[n]);
+	}
+
+	//can't find the node
+	assert(false);
+	return NULL;
+
+}
+
+/**
  * Loads the models into the scene object
  */
 void AssimpModelImporter::init(PConfig config){

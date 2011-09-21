@@ -29,6 +29,8 @@ public:
 	void init(PConfig config);
 	const aiScene* getScene();
 	struct aiVector3D scene_min, scene_max, scene_center;
+	const struct aiNode* getNodeByName(string nodeName,const struct aiNode* nd);
+
 private:
 	void get_bounding_box_for_node (const struct aiNode* nd,
 	struct aiVector3D* min,

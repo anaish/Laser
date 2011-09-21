@@ -22,6 +22,7 @@ public:
 	OpenGlDisplay();
 	virtual void init(PConfig config);
 	virtual void OnRender();
+	virtual PModelImporter getModelImporter();
 	virtual void rotateScene(float angle,float x,float y, float z);
 private:
 	void apply_material(const struct aiMaterial *mtl);
