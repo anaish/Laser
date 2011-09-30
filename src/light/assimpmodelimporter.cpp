@@ -88,7 +88,7 @@ void AssimpModelImporter::loadModel(string fileName){
 	assert(scene);
 
 	if (scene) {
-		get_bounding_box(&scene_min,&scene_max);
+		get_bounding_box(scene->mRootNode,&scene_min,&scene_max);
 		scene_center.x = (scene_min.x + scene_max.x) / 2.0f;
 		scene_center.y = (scene_min.y + scene_max.y) / 2.0f;
 		scene_center.z = (scene_min.z + scene_max.z) / 2.0f;
@@ -96,7 +96,9 @@ void AssimpModelImporter::loadModel(string fileName){
 
 }
 
-
+/**
+ * Gets the bounding box for a node and assigns it to min and max.
+ */
 
 void AssimpModelImporter::get_bounding_box_for_node (const struct aiNode* nd,
 	struct aiVector3D* min,
@@ -107,6 +109,12 @@ void AssimpModelImporter::get_bounding_box_for_node (const struct aiNode* nd,
 	unsigned int n = 0, t;
 
 	prev = *trafo;
+
+	// TODO we will introduce an identifier into the name of the object in blender which will
+	// indicate that the object is collidable something like collidable_Laser, collidable_Target
+	setCollidableNodeCount(getCollidableNodeCount()+1);
+
+
 	aiMultiplyMatrix4(trafo,&nd->mTransformation);
 
 	for (; n < nd->mNumMeshes; ++n) {
@@ -132,17 +140,31 @@ void AssimpModelImporter::get_bounding_box_for_node (const struct aiNode* nd,
 	*trafo = prev;
 }
 
-// ----------------------------------------------------------------------------
+/*
+ * Calculates the scene's bounding box and assigns the values to min and max.
+ */
 
-void AssimpModelImporter::get_bounding_box (struct aiVector3D* min, struct aiVector3D* max)
+void AssimpModelImporter::get_bounding_box (struct aiNode* node,struct aiVector3D* min, struct aiVector3D* max)
 {
 	struct aiMatrix4x4 trafo;
 	aiIdentityMatrix4(&trafo);
 
 	min->x = min->y = min->z =  1e10f;
 	max->x = max->y = max->z = -1e10f;
-	get_bounding_box_for_node(scene->mRootNode,min,max,&trafo);
+	get_bounding_box_for_node(node,min,max,&trafo);
 }
 
+/**
+ * Sets the number of collidable nodes
+ */
+void AssimpModelImporter::setCollidableNodeCount(int count){
+	this->collidableNodeCount = count;
+}
 
+/**
+ * Gets the number of collidable nodes
+ */
+int AssimpModelImporter::getCollidableNodeCount(){
+	return this->collidableNodeCount;
+}
 

@@ -30,6 +30,9 @@ public:
 	const aiScene* getScene();
 	struct aiVector3D scene_min, scene_max, scene_center;
 	const struct aiNode* getNodeByName(string nodeName,const struct aiNode* nd);
+	int getCollidableNodeCount();
+	void setCollidableNodeCount(int count);
+	void get_bounding_box (struct aiNode* node,struct aiVector3D* min, struct aiVector3D* max);
 
 private:
 	void get_bounding_box_for_node (const struct aiNode* nd,
@@ -37,10 +40,9 @@ private:
 	struct aiVector3D* max,
 	struct aiMatrix4x4* trafo
 	);
-	void get_bounding_box (struct aiVector3D* min, struct aiVector3D* max);
-	PConfig config;
 	void loadModel(string fileName);
-
+	PConfig config;
+	int collidableNodeCount;
 };
 
 #endif

@@ -1,6 +1,7 @@
 
 #include <GL/gl.h>
 #include "defaultphysics.hpp"
+#include <glog/logging.h>
 
 
 /**
@@ -20,15 +21,17 @@
 
 static dWorldID world;
 static dSpaceID space;
-static dBodyID body[NUM];
-static dJointID joint[NUM-1];
 static dJointGroupID contactgroup;
-static dGeomID sphere[NUM];
+
+static dBodyID *mBody;
+static int bodyCount;
+
 
 static void initWorld();
 static void nearCallback (void *data, dGeomID o1, dGeomID o2);
 static void simLoop (int pause);
 static void createObjects(PDisplay display);
+static void recursiveCreateObjects( PModelImporter modelImporter,const aiScene* scene,aiNode* nd);
 static void destroyWorld();
 
 DefaultPhysics::DefaultPhysics(){
@@ -49,7 +52,6 @@ void DefaultPhysics::setDisplay(PDisplay display){
 }
 
 void DefaultPhysics::init(){
-
 
 	assert(display);
 	initWorld();
@@ -78,14 +80,7 @@ void DefaultPhysics::onEvent(SDL_Event* event){
 }
 
 
-/*
-void moveObject(string name,){
 
-	const struct aiNode* weapon =
-
-
-}
-*/
 /**
  * Initialises the ODE world
  */
@@ -105,6 +100,8 @@ static void initWorld(){
 // this is called by dSpaceCollide when two objects in space are
 // potentially colliding.
 static void nearCallback (void *data, dGeomID o1, dGeomID o2){
+
+	//this should be sent out to be scripted
 
 	/* exit without doing anything if the two bodies are connected by a joint */
 	  dBodyID b1,b2;
@@ -127,10 +124,12 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2){
 	// simulation loop
 	static void simLoop (int pause)	{
 
+		//this should go out to be scripted through v8
+
 		  if (!pause) {
 		    static double angle = 0;
 		    angle += 0.05;
-		    dBodyAddForce (body[NUM-1],0,0,1.5*(sin(angle)+1.0));
+		    dBodyAddForce (mBody[bodyCount-1],0,0,1.5*(sin(angle)+1.0));
 
 		    dSpaceCollide (space,0,&nearCallback);
 		    dWorldStep (world,0.05);
@@ -148,16 +147,24 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2){
 		//	 display->getCollidableObjects();
 
 		PModelImporter modelImporter = display->getModelImporter();
-		//probably stick all the objects that can be affected by physics into a lookup table
-		//that way we can quickly get the object we want to manipulate
-		//means each object really needs a unique name
-		//OR we could use recursion each time we need to get the node...
 
 
+		//for each of the collidable objects we should create a bounding geometry
+		//we then send that out to be scripted
 
+		const aiScene* scene = modelImporter->getScene();
+
+		mBody = new dBodyID[modelImporter->getCollidableNodeCount()];
+		//add the bodies to mBodyId
+		bodyCount = 0;
+		 //scene->mRootNode
+		recursiveCreateObjects(modelImporter,scene,scene->mRootNode);
+
+/*
 		int i;
 		dReal k;
 		dMass m;
+
 
 
 		for (i=0; i<NUM; i++) {
@@ -176,6 +183,54 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2){
 			k = (i+0.5)*SIDE;
 			dJointSetBallAnchor (joint[i],k,k,k+0.4);
 		}
+*/
+
+	}
+
+	static void recursiveCreateObjects(PModelImporter modelImporter,const aiScene* scene,struct aiNode* node){
+
+		LOG(ERROR) << "Creating collidable object:";
+		LOG(ERROR) << node->mName.data;
+
+		unsigned int n = 0;
+		dMass m;
+
+		mBody[bodyCount] = dBodyCreate (world);
+		const aiMatrix4x4 transform = node->mTransformation;
+
+		struct aiVector3D scalingVector;
+		struct aiVector3D positionVector;
+		struct aiQuaternion rotationVector;
+		struct aiVector3D min, max;
+
+		transform.Decompose(scalingVector,rotationVector,positionVector);
+
+		dReal xReal = positionVector.x;
+		dReal yReal = positionVector.y;
+		dReal zReal = positionVector.z;
+
+		dBodySetPosition (mBody[bodyCount],xReal,yReal,zReal);
+
+		modelImporter->get_bounding_box(node,&min,&max);
+
+		float xLength = max.x - min.x;
+		float yLength = max.y - min.y;
+		float zLength = max.z - min.z;
+
+
+		assert(xLength>0);
+		assert(yLength>0);
+		assert(zLength>0);
+
+		dMassSetBox (&m,1,xLength,yLength,zLength);
+		dMassAdjust (&m,MASS);
+		dBodySetMass (mBody[bodyCount],&m);
+
+		// create all children
+		bodyCount++;
+		for (n = 0; n < node->mNumChildren; ++n) {
+			recursiveCreateObjects(modelImporter, scene, node->mChildren[n]);
+		}
 
 
 	}
@@ -185,6 +240,7 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2){
 	 */
 	static void destroyWorld(){
 
+		  delete []mBody;
 		  dJointGroupDestroy (contactgroup);
 		  dSpaceDestroy (space);
 		  dWorldDestroy (world);

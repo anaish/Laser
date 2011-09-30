@@ -34,6 +34,7 @@ private:
 	void doMotion();
 	SDL_Surface* screen;
 	PModelImporter modelImporter;
+	int getCollidableNodeCount;
 
 };
 #endif

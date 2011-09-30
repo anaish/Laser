@@ -29,6 +29,7 @@ public:
 
 private:
 	PDisplay display;
+
 	//TODO the following will be arrays of collidable objects
 
 

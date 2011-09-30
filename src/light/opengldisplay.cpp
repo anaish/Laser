@@ -142,7 +142,7 @@ void OpenGlDisplay::render(void)
 
 
 	// rotate it using the current scene rotation settings
-
+	//TODO seems like it always renders the view upside down
 	glRotatef(rotationAngle,rotationX,rotationY,rotationZ);
 
         // if the display list has not been made yet, create a new one and
